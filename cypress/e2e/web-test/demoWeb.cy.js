@@ -1,0 +1,70 @@
+describe('template spec', () => {
+    beforeEach(() => {
+        cy.visit('https://demowebshop.tricentis.com/register')
+    })
+it('failed register - wrong email',() => {
+    cy.get('#gender-male').type('M')
+    cy.get('#FirstName').type('anugrah')
+    cy.get('#LastName').type('putra')
+    cy.get('#Email').type('putragmail.com')
+    cy.get('#Password').type('123123')
+    cy.get('#ConfirmPassword').type('123123')
+    cy.get('#register-button').click()
+    cy.get('.field-validation-error').should('contain.text','Wrong email')
+})
+
+it('failed register - password not match',() => {
+    cy.get('#gender-male').type('M')
+    cy.get('#FirstName').type('anugrah')
+    cy.get('#LastName').type('putra')
+    cy.get('#Email').type('putra@gmail.com')
+    cy.get('#Password').type('123124')
+    cy.get('#ConfirmPassword').type('123123')
+    cy.get('#register-button').click()
+    cy.get('.field-validation-error').should('contain.text','do not match')
+})
+
+it('failed register - empty password',() => {
+    cy.get('#gender-male').type('M')
+    cy.get('#FirstName').type('anugrah')
+    cy.get('#LastName').type('putra')
+    cy.get('#Email').type('putra@gmail.com')
+    cy.get('#Password').clear()
+    cy.get('#ConfirmPassword').clear()
+    cy.get('#register-button').click()
+    cy.get('.field-validation-error').should('contain.text','required')
+})
+
+it('failed register - empty LastName',() => {
+    cy.get('#gender-male').type('M')
+    cy.get('#FirstName').type('anugrah')
+    cy.get('#LastName').clear()
+    cy.get('#Email').type('putra@gmail.com')
+    cy.get('#Password').clear()
+    cy.get('#ConfirmPassword').clear()
+    cy.get('#register-button').click()
+    cy.get('.field-validation-error').should('contain.text','required')
+})
+
+it('failed register - empty firstname',() => {
+    cy.get('#gender-male').type('M')
+    cy.get('#FirstName').clear()
+    cy.get('#LastName').type('putra')
+    cy.get('#Email').type('putra@gmail.com')
+    cy.get('#Password').clear()
+    cy.get('#ConfirmPassword').clear()
+    cy.get('#register-button').click()
+    cy.get('.field-validation-error').should('contain.text','required')
+})
+
+it('success register',() => {
+    cy.get('#gender-male').type('M')
+    cy.get('#FirstName').type('anugrah')
+    cy.get('#LastName').type('putra')
+    cy.get('#Email').type('anugrahputra1234@gmail.com')
+    cy.get('#Password').type('123123')
+    cy.get('#ConfirmPassword').type('123123')
+    cy.get('#register-button').click()
+    cy.get('.result').should('contain.text','completed')
+})
+})

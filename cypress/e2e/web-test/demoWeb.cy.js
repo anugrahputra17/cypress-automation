@@ -57,11 +57,21 @@ it('failed register - empty firstname',() => {
     cy.get('.field-validation-error').should('contain.text','required')
 })
 
+it('failed register - email already exist',() => {
+    cy.get('#gender-male').type('M')
+    cy.get('#FirstName').type('anugrah')
+    cy.get('#LastName').type('putra')
+    cy.get('#Email').type('putra@gmail.com')
+    cy.get('#Password').type('123123')
+    cy.get('#ConfirmPassword').type('123123')
+    cy.get('#register-button').click()
+    cy.get('.validation-summary-errors').should('contain.text','already exist')
+})
 it('success register',() => {
     cy.get('#gender-male').type('M')
     cy.get('#FirstName').type('anugrah')
     cy.get('#LastName').type('putra')
-    cy.get('#Email').type('anugrahputra1234@gmail.com')
+    cy.get('#Email').type('putraanugrah@gmail.com')
     cy.get('#Password').type('123123')
     cy.get('#ConfirmPassword').type('123123')
     cy.get('#register-button').click()
